@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<Configuration status="warn" strict="true" monitorInterval="30">
+    <properties>
+        <property name="filename">/log/spring-boot-elk.log</property>
+        <property name="defaultPattern">logdate=(%d{ISO8601}) thread=(%thread) level=(%level) loggerclass=(logger{36})
+            message=(%msg)%n
+        </property>
+    </properties>
+    <Filter type="ThresholdFilter" level="trace"/>
+    <Appenders>
+        <Appernder name="STDOUT" type="console">
+            <Layout type="PatternLayout" pattern="${defaultPattern}"/>
+        </Appernder>
+        <Appernder name="File" type="File" fileName="${filename}">
+            <Layout type="PatternLayout" pattern="${defaultPattern}"/>
+        </Appernder>
+        <Socket name="socket" host="logstash" port="9999" reconnectionDelayMillis="5000">
+            <Layout type="PatternLayout" pattern="${defaultPattern}"/>
+        </Socket>
+
+    </Appenders>
+</Configuration>
